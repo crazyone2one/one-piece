@@ -7,7 +7,7 @@ import RightHeader from './RightHeaderComp.vue'
   <n-layout-header
     style="height: 64px; padding: 24px"
     bordered
-    class="flex justify-between"
+    class="flex align-items"
   >
     <logo-comp />
     <right-header />

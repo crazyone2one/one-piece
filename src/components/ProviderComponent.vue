@@ -8,6 +8,7 @@ import {
   NLoadingBarProvider,
   NMessageProvider,
   NDialogProvider,
+  NNotificationProvider,
 } from 'naive-ui'
 const osTheme = useOsTheme()
 const theme = computed(() => (osTheme.value === 'dark' ? darkTheme : null))
@@ -16,11 +17,13 @@ const theme = computed(() => (osTheme.value === 'dark' ? darkTheme : null))
   <n-config-provider :theme="theme">
     <n-global-style />
     <n-loading-bar-provider>
-      <n-message-provider>
-        <n-dialog-provider>
-          <slot />
-        </n-dialog-provider>
-      </n-message-provider>
+      <n-dialog-provider>
+        <n-notification-provider>
+          <n-message-provider>
+            <slot />
+          </n-message-provider>
+        </n-notification-provider>
+      </n-dialog-provider>
     </n-loading-bar-provider>
   </n-config-provider>
 </template>
