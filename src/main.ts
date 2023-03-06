@@ -6,6 +6,7 @@ import router from './routers'
 import 'vfonts/Lato.css'
 // 等宽字体
 import 'vfonts/FiraCode.css'
+import 'uno.css'
 
 const app = createApp(App)
 app.use(router)

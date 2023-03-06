@@ -1,6 +1,7 @@
 import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import path from 'path'
+import UnoCSS from 'unocss/vite'
 
 const pathResolve = (dir: string) => {
   return path.resolve(__dirname, '.', dir)
@@ -12,7 +13,12 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
   return {
     // vite 配置
-    plugins: [vue()],
+    plugins: [
+      vue(),
+      UnoCSS({
+        /* options */
+      }),
+    ],
     resolve: {
       alias: [
         // /@/xxxx => src/xxxx
