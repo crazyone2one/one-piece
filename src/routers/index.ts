@@ -1,8 +1,18 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 
 // Define some routes
-const routes = [
-  { path: '/', component: () => import('../views/dashboard/index.vue') },
+const routes: RouteRecordRaw[] = [
+  {
+    path: '/',
+    redirect: '/dashboard',
+    component: () => import('/@/components/layout/index.vue'),
+    children: [
+      {
+        path: '/dashboard',
+        component: () => import('../views/dashboard/index.vue'),
+      },
+    ],
+  },
 ]
 // Create the router instance and pass the `routes` option
 const router = createRouter({
