@@ -19,5 +19,12 @@ module.exports = {
     sourceType: 'module',
   },
   plugins: ['vue', '@typescript-eslint'],
-  rules: {},
+  rules: {
+    'vue/multi-word-component-names': [
+      'error',
+      {
+        ignores: ['index'],
+      },
+    ],
+  },
 }
