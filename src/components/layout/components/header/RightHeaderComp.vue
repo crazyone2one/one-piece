@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { h } from 'vue'
 import { NSpace, NDropdown, NAvatar, NText, NButton } from 'naive-ui'
+// import LangComp from '/@/components/layout/components/header/LangComp.vue'
 const renderCustomHeader = () => {
   return h(
     'div',
@@ -56,7 +57,9 @@ const handleSelect = (key: string | number) => {
 </script>
 <template>
   <n-space justify="end" class="ml-auto">
-    <div>item1</div>
+    <div>
+      <!-- <lang-comp /> -->
+    </div>
     <div>
       <n-button
         text

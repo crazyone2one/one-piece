@@ -483,6 +483,7 @@
             "ui_element": "未规划元素",
             "ui_scenario": "未规划场景",
             "ui_module": "未规划模块"
-        }
+        },
+        "account": "请输入账号"
     }
 }

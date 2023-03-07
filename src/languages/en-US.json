@@ -483,6 +483,7 @@
             "ui_element": "default",
             "ui_scenario": "default",
             "ui_module": "default"
-        }
+        },
+        "account": "Please enter your account"
     }
 }
