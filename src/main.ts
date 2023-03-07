@@ -8,7 +8,8 @@ import 'vfonts/Lato.css'
 import 'vfonts/FiraCode.css'
 import 'uno.css'
 import i18n from './plugins/i18n'
+import pinia from './plugins/pinia'
 
 const app = createApp(App)
-app.use(router).use(i18n)
+app.use(router).use(i18n).use(pinia)
 app.mount('#app')
