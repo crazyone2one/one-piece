@@ -2,6 +2,9 @@ import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import path from 'path'
 import UnoCSS from 'unocss/vite'
+import presetIcons from '@unocss/preset-icons'
+import { presetAttributify, presetUno } from 'unocss'
+import fs from 'node:fs/promises'
 
 const pathResolve = (dir: string) => {
   return path.resolve(__dirname, '.', dir)
@@ -16,7 +19,41 @@ export default defineConfig(({ mode }) => {
     plugins: [
       vue(),
       UnoCSS({
-        /* options */
+        presets: [
+          presetAttributify({
+            /* preset options */
+          }),
+          presetUno(),
+          // https://github.com/unocss/unocss/tree/main/packages/preset-icons#configuration
+          presetIcons({
+            extraProperties: {
+              display: 'inline-block',
+              'vertical-align': 'middle',
+            },
+            collections: {
+              custom: {
+                alarm:
+                  '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M12 20a7 7 0 0 1-7-7a7 7 0 0 1 7-7a7 7 0 0 1 7 7a7 7 0 0 1-7 7m0-16a9 9 0 0 0-9 9a9 9 0 0 0 9 9a9 9 0 0 0 9-9a9 9 0 0 0-9-9m.5 4H11v6l4.75 2.85l.75-1.23l-4-2.37V8M7.88 3.39L6.6 1.86L2 5.71l1.29 1.53l4.59-3.85M22 5.72l-4.6-3.86l-1.29 1.53l4.6 3.86L22 5.72Z"/></svg>',
+                /* ... */
+              },
+
+              'my-icons': {
+                // load your custom icon lazily
+                logo: () =>
+                  fs.readFile('./src/assets/one-piece-logo.svg', 'utf-8'),
+                /* ... */
+              },
+            },
+            customizations: {
+              iconCustomizer(collection, icon, props) {
+                if (['custom', 'my-icons', 'mdi'].concat(collection)) {
+                  props.width = '2em'
+                  props.height = '2em'
+                }
+              },
+            },
+          }),
+        ],
       }),
     ],
     resolve: {

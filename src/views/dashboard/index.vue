@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { NResult, NButton } from 'naive-ui'
+// import { Component, h } from 'vue'
+import { NResult, NButton, NIcon } from 'naive-ui'
 </script>
 <template>
   <n-result
@@ -9,6 +10,12 @@ import { NResult, NButton } from 'naive-ui'
   >
     <template #footer>
       <n-button>我需要信息</n-button>
+      <span class="i-mdi:translate text-orange-400" />
+      <span class="i-custom:alarm text-orange-400" />
+      <span class="i-my-icons:logo text-orange-400" />
+      <n-icon>
+        <span class="i-custom:alarm text-orange-400" />
+      </n-icon>
     </template>
   </n-result>
 </template>
