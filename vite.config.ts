@@ -42,16 +42,23 @@ export default defineConfig(({ mode }) => {
                 logo: () =>
                   fs.readFile('./src/assets/one-piece-logo.svg', 'utf-8'),
                 /* ... */
+                settings: () =>
+                  fs.readFile('./src/assets/icons/settings.svg', 'utf-8'),
               },
             },
-            customizations: {
-              iconCustomizer(collection, icon, props) {
-                if (['custom', 'my-icons', 'mdi'].concat(collection)) {
-                  props.width = '2em'
-                  props.height = '2em'
-                }
-              },
-            },
+            // customizations: {
+            //   iconCustomizer(collection, icon, props) {
+            //     if (['custom', 'my-icons', 'mdi'].concat(collection)) {
+            //       props.width = '2em'
+            //       props.height = '2em'
+            //     }
+            //     // customize this icon in this collection
+            //     if (collection === 'my-icons' && icon === 'settings') {
+            //       props.width = '1em'
+            //       props.height = '1em'
+            //     }
+            //   },
+            // },
           }),
         ],
       }),
