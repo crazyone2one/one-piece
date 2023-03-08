@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import { MenuOption, NIcon, NMenu } from 'naive-ui'
-import { h } from 'vue'
+import { h, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { RouterLink, useRoute } from 'vue-router'
 
+const { t } = useI18n()
+const route = useRoute()
 /**
  * 处理菜单展开图标的渲染
  */
@@ -35,16 +39,51 @@ const menuOptions: MenuOption[] = [
       }),
     children: [
       {
-        label: '寻羊冒险记1',
-        key: 'a-wild-sheep-chase1',
+        label: () =>
+          h(
+            RouterLink,
+            {
+              to: {
+                name: 'Project',
+              },
+            },
+            { default: () => t('commons.project') }
+          ),
+        key: 'project',
       },
-      { label: '寻羊冒险记2', key: 'a-wild-sheep-chase2' },
+      {
+        label: () =>
+          h(
+            RouterLink,
+            {
+              to: {
+                name: 'Workspace',
+              },
+            },
+            { default: () => t('commons.workspace') }
+          ),
+        key: 'workspace',
+      },
     ],
   },
 ]
+const activeKey = ref<string | null>(route.path.split('/')[2])
+/**
+ * 点击菜单。选中菜单的回调，key 是选中菜单项的 key
+ * @param key 菜单key
+ */
+const handleSelect = (key: string) => {
+  activeKey.value = key
+}
 </script>
 <template>
-  <n-menu accordion :options="menuOptions" :expand-icon="expandIcon" />
+  <n-menu
+    v-model:value="activeKey"
+    accordion
+    :options="menuOptions"
+    :expand-icon="expandIcon"
+    @update:value="handleSelect"
+  />
 </template>
 
 <style scoped></style>

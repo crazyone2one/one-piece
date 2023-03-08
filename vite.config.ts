@@ -35,6 +35,8 @@ export default defineConfig(({ mode }) => {
                 alarm:
                   '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M12 20a7 7 0 0 1-7-7a7 7 0 0 1 7-7a7 7 0 0 1 7 7a7 7 0 0 1-7 7m0-16a9 9 0 0 0-9 9a9 9 0 0 0 9 9a9 9 0 0 0 9-9a9 9 0 0 0-9-9m.5 4H11v6l4.75 2.85l.75-1.23l-4-2.37V8M7.88 3.39L6.6 1.86L2 5.71l1.29 1.53l4.59-3.85M22 5.72l-4.6-3.86l-1.29 1.53l4.6 3.86L22 5.72Z"/></svg>',
                 /* ... */
+                search:
+                  '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M7 9H2V7h5v2zm0 3H2v2h5v-2zm13.59 7l-3.83-3.83c-.8.52-1.74.83-2.76.83c-2.76 0-5-2.24-5-5s2.24-5 5-5s5 2.24 5 5c0 1.02-.31 1.96-.83 2.75L22 17.59L20.59 19zM17 11c0-1.65-1.35-3-3-3s-3 1.35-3 3s1.35 3 3 3s3-1.35 3-3zM2 19h10v-2H2v2z"/></svg>',
               },
 
               'my-icons': {
@@ -60,6 +62,18 @@ export default defineConfig(({ mode }) => {
             //   },
             // },
           }),
+        ],
+        shortcuts: [
+          ['wh-full', 'w-full h-full'],
+          ['f-c-c', 'flex justify-center items-center'],
+          ['f-col-c-c', 'flex-col justify-center items-center'],
+          ['flex-col', 'flex flex-col'],
+          ['absolute-lt', 'absolute left-0 top-0'],
+          ['absolute-lb', 'absolute left-0 bottom-0'],
+          ['absolute-rt', 'absolute right-0 top-0'],
+          ['absolute-rb', 'absolute right-0 bottom-0'],
+          ['absolute-center', 'absolute-lt f-c-c wh-full'],
+          ['text-ellipsis', 'truncate'],
         ],
       }),
     ],

@@ -1,13 +1,14 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import { useConfigStore } from '../stores/config'
 import { useUserStore } from '../stores/user'
-
+import i18n from '../plugins/i18n'
 // Define some routes
 const routes: RouteRecordRaw[] = [
   {
     path: '/login',
     name: 'Login',
     component: () => import('/@/views/login/index.vue'),
+    meta: { title: 'commons.login' },
   },
   {
     path: '/',
@@ -17,6 +18,24 @@ const routes: RouteRecordRaw[] = [
       {
         path: '/dashboard',
         component: () => import('../views/dashboard/index.vue'),
+      },
+      {
+        path: '/setting/workspace',
+        name: 'Workspace',
+        component: () => import('/@/views/system-setting/workspace/index.vue'),
+        meta: {
+          title: 'commons.workspace',
+          permissions: ['SYSTEM_WORKSPACE:READ'],
+        },
+      },
+      {
+        path: '/setting/project',
+        name: 'Project',
+        component: () => import('/@/views/system-setting/project/index.vue'),
+        meta: {
+          title: 'commons.project',
+          permissions: ['SYSTEM_WORKSPACE:READ'],
+        },
       },
     ],
   },
@@ -30,6 +49,9 @@ const router = createRouter({
 
 // 全局前置守卫
 router.beforeEach((to, from, next) => {
+  // 设置标题
+  const title = i18n.global.t(to.meta.title as string)
+  document.title = `${title} | ${import.meta.env.VITE_APP_TITLE}`
   const userStore = useUserStore()
   const configStore = useConfigStore()
   const token = userStore.getToken()
