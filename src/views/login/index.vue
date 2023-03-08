@@ -10,13 +10,21 @@ import {
   NInput,
   NCard,
 } from 'naive-ui'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import CryptoJS from 'crypto-js'
+import { IReqLogin, loginApi } from '/@/apis/user-api'
+import { useUserStore } from '/@/stores/user'
+import { useConfigStore } from '/@/stores/config'
+import { useRoute, useRouter } from 'vue-router'
+import { formatAxis } from '/@/utils/format-time'
 
 const title = import.meta.env.VITE_APP_TITLE
 const isRemember = ref(false)
 const loading = ref(false)
 const { t } = useI18n()
+const userStore = useUserStore()
+const configStore = useConfigStore()
 const formRef = ref<FormInst | null>(null)
 const model = ref<{ name: string | null; password: string | null }>({
   name: 'admin',
@@ -44,6 +52,67 @@ const rules: FormRules = {
     },
   ],
 }
+const route = useRoute()
+const router = useRouter()
+const currentTime = computed(() => {
+  return formatAxis(new Date())
+})
+/**
+ * 登录功能
+ */
+const handleLogin = () => {
+  formRef.value?.validate((error) => {
+    if (!error) {
+      loading.value = true
+      const param: IReqLogin = { name: '', password: '' }
+      param.name = model.value.name as string
+      param.password = CryptoJS.MD5(model.value.password as string).toString()
+      loginApi(param)
+        .then((resp) => {
+          const { authorities, lastProjectId, lastWorkspaceId } = resp.data
+          const _authorities: string[] = []
+          authorities.forEach((authority) => {
+            _authorities.push(authority.authority)
+          })
+          userStore.$patch((state) => {
+            state.user.id = resp.data.userId as string
+            state.user.token = resp.data.token as string
+            state.user.username = resp.data.username as string
+            state.user.authorities = _authorities
+          })
+          configStore.resetcommonStoreStore()
+          const currentProjectId = configStore.getProjectId()
+          if (!currentProjectId) {
+            configStore.setProjectId(lastProjectId)
+          } else {
+            // TODO:根据用户的权限设置project id
+          }
+          if (!configStore.getWorkspaceId()) {
+            configStore.setWorkspaceId(lastWorkspaceId)
+          }
+          loading.value = false
+          if (route.query?.redirect) {
+            router.push({
+              path: <string>route.query?.redirect,
+              query:
+                Object.keys(<string>route.query?.params).length > 0
+                  ? JSON.parse(<string>route.query?.params)
+                  : '',
+            })
+          } else {
+            router.push('/')
+          }
+          window.$notification.success({
+            content: currentTime.value,
+            duration: 2500,
+          })
+        })
+        .finally(() => {
+          loading.value = false
+        })
+    }
+  })
+}
 </script>
 <template>
   <div class="flex min-h-full items-center justify-center login-container">
@@ -69,7 +138,7 @@ const rules: FormRules = {
             :maxlength="20"
           >
             <template #prefix>
-              <!-- <div class="i-carbon:user-avatar" mr-5 /> -->
+              <span class="i-mdi:account" />
             </template>
           </n-input>
         </n-form-item>
@@ -80,9 +149,10 @@ const rules: FormRules = {
             show-password-on="mousedown"
             :placeholder="$t('commons.password')"
             :maxlength="20"
+            @keyup.enter="handleLogin"
           >
             <template #prefix>
-              <!-- <div class="i-ic:round-lock-person" mr-5 /> -->
+              <span class="i-mdi:account-lock" />
             </template>
           </n-input>
         </n-form-item>
@@ -99,6 +169,7 @@ const rules: FormRules = {
             type="primary"
             :loading="loading"
             class="group relative flex w-full justify-center rounded-md"
+            @click="handleLogin"
           >
             登 录
           </n-button>

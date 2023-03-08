@@ -5,7 +5,7 @@ interface IUserState {
   id: string
   token: string
   username: string
-  permissions: string[]
+  authorities: string[]
 }
 export const useUserStore = defineStore(
   'userStore',
@@ -14,7 +14,7 @@ export const useUserStore = defineStore(
       id: '',
       username: '',
       token: '',
-      permissions: [],
+      authorities: [],
     })
     /**
      * 获取token值
@@ -33,7 +33,7 @@ export const useUserStore = defineStore(
       user.value.id = ''
       user.value.username = ''
       user.value.token = ''
-      user.value.permissions = []
+      user.value.authorities = []
     }
     const logout = () => {
       resetAuthStore()

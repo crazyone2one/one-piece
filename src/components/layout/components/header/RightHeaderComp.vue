@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { h } from 'vue'
 import { NSpace, NDropdown, NAvatar, NText, NButton } from 'naive-ui'
+import { useUserStore } from '/@/stores/user'
+import { useI18n } from 'vue-i18n'
+import { logoutApi } from '/@/apis/user-api'
+import { useRouter, useRoute } from 'vue-router'
 // import LangComp from '/@/components/layout/components/header/LangComp.vue'
 const renderCustomHeader = () => {
   return h(
@@ -27,7 +31,10 @@ const renderCustomHeader = () => {
     ]
   )
 }
-
+const { t } = useI18n()
+const user = useUserStore()
+const router = useRouter()
+const route = useRoute()
 const options = [
   {
     key: 'header',
@@ -47,16 +54,43 @@ const options = [
     key: 'stmt2',
   },
   {
-    label: '加入群 17 个',
+    key: 'header-divider',
+    type: 'divider',
+  },
+  {
+    label: t('commons.exit_system'),
     key: 'stmt3',
   },
 ]
-const handleSelect = (key: string | number) => {
-  window.$message.info(String(key))
+
+const handleSelect = (key: string) => {
+  if (key === 'stmt3') {
+    // 退出系统
+    window.$dialog.warning({
+      content: '此操作将退出登录, 是否继续？',
+      positiveText: '确定',
+      negativeText: '不确定',
+      maskClosable: false,
+      showIcon: false,
+      onPositiveClick: () => {
+        setTimeout(() => {
+          logoutApi().then(() => {
+            user.resetAuthStore()
+            router.replace({
+              name: 'Login',
+              query: {
+                redirect: route.fullPath,
+              },
+            })
+          })
+        }, 1000)
+      },
+    })
+  }
 }
 </script>
 <template>
-  <n-space justify="end" class="ml-auto">
+  <n-space class="ml-auto items-center" inline>
     <div>
       <!-- <lang-comp /> -->
     </div>
@@ -73,11 +107,7 @@ const handleSelect = (key: string | number) => {
     </div>
     <div>
       <n-dropdown trigger="hover" :options="options" @select="handleSelect">
-        <n-avatar
-          round
-          size="small"
-          src="https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg"
-        />
+        <n-button text>{{ user.user.username }}</n-button>
       </n-dropdown>
     </div>
   </n-space>
