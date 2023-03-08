@@ -28,4 +28,8 @@ const theme = computed(() => (osTheme.value === 'dark' ? darkTheme : null))
   </n-config-provider>
 </template>
 
-<style scoped></style>
+<style scoped>
+.n-config-provider {
+  height: 100%;
+}
+</style>

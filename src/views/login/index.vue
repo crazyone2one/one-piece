@@ -8,6 +8,7 @@ import {
   NH1,
   NCheckbox,
   NInput,
+  NCard,
 } from 'naive-ui'
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -45,8 +46,8 @@ const rules: FormRules = {
 }
 </script>
 <template>
-  <div class="flex min-h-full items-center justify-center py-12 lg:px-8">
-    <div class="w-full max-w-md space-y-8">
+  <div class="flex min-h-full items-center justify-center login-container">
+    <n-card class="max-w-md space-y-8 shadow-xl">
       <div class="flex flex-col items-center justify-around">
         <img
           class="h-12 w-auto"
@@ -93,17 +94,17 @@ const rules: FormRules = {
           />
         </div>
 
-        <div>
+        <div class="py-2">
           <n-button
             type="primary"
             :loading="loading"
-            class="group relative flex w-full justify-center rounded-md py-2 px-3 text-sm font-semibold text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            class="group relative flex w-full justify-center rounded-md"
           >
             登 录
           </n-button>
         </div>
       </n-form>
-    </div>
+    </n-card>
   </div>
 </template>
 
